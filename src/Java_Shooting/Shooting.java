@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 public class Shooting {
 	public static ShootingFrame shootingFrame;
@@ -40,10 +41,17 @@ public class Shooting {
 			switch (screen) {
 			case START:
 				gra.setColor(Color.BLACK);
-				Font font = new Font("SansSerif", Font.PLAIN, 40);
+				Font font = new Font("SansSerif", Font.PLAIN, 50);
 				gra.setFont(font);
 				FontMetrics metrics = gra.getFontMetrics(font);
 				gra.drawString("Shooting", 250 - (metrics.stringWidth("Shooting") / 2), 100);
+				font = new Font("SansSerif", Font.PLAIN, 20);
+				gra.setFont(font);
+				metrics = gra.getFontMetrics(font);
+				gra.drawString("Please SPASE to Start", 250 - (metrics.stringWidth("Please SPASE to Start") / 2), 180);
+				if(Keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
+					screen = EnumShootingScreen.GAME;
+				}
 				break;
 			case GAME:
 				break;
