@@ -37,8 +37,8 @@ public class Shooting {
 			gra.fillRect(100,  100,  100, 100);
 			
 			gra.setColor(Color.BLACK);
-			gra.setFont(new Font("SanSerif", Font.PLAIN, 20));
-			gra.drawString(FPS + "FPS", 0, 400);
+			gra.setFont(new Font("SanSerif", Font.PLAIN, 10));
+			gra.drawString(FPS + "FPS", 0, 460);
 			
 			shootingFrame.panel.draw();
 			
