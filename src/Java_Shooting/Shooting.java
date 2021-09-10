@@ -37,7 +37,6 @@ public class Shooting {
 				fpsTime = System.currentTimeMillis();
 				FPS = FPSCount;
 				FPSCount = 0;
-				System.out.println(FPS);
 			}
 			FPSCount++;
 			startTime = System.currentTimeMillis();
@@ -68,10 +67,26 @@ public class Shooting {
 				gra.setColor(Color.BLUE);
 				gra.fillRect(playerX + 10, playerY, 10, 10);
 				gra.fillRect(playerX, playerY + 10, 30, 10);
+				
+				for (int i = 0; i < bullets.size(); i++) {
+					Bullet bullet = bullets.get(i);
+					gra.setColor(Color.BLUE);
+					gra.fillRect(bullet.x, bullet.y, 5, 5);
+					bullet.y -= 10;
+					if(bullet.y < 0) {
+						bullets.remove(i);
+						i--;
+					}
+				}
 				if(Keyboard.isKeyPressed(KeyEvent.VK_LEFT) && playerX > 0) playerX -= 5;
 				if(Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && playerX < 460) playerX += 5;
 				if(Keyboard.isKeyPressed(KeyEvent.VK_UP) && playerY > 30) playerY -= 5;
 				if(Keyboard.isKeyPressed(KeyEvent.VK_DOWN) && playerY < 440) playerY += 5;
+				
+				
+				if(Keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
+					bullets.add(new Bullet(playerX + 12, playerY));
+				}
 				break;
 			case GAME_OVER:
 				break;
