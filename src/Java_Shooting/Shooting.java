@@ -31,6 +31,8 @@ public class Shooting {
 		int playerX = 0, playerY = 0;
 		int bulletInterval = 0;
 		int score = 0;
+		int level = 0;
+		long levelTimer = 0;
 		ArrayList<Bullet> bullets_player = new ArrayList<>();
 		ArrayList<Bullet> bullets_enemy = new ArrayList<>();
 		ArrayList<Enemy> enemies = new ArrayList<>();
@@ -68,9 +70,14 @@ public class Shooting {
 					playerX = 235;
 					playerY = 420;
 					score = 0;
+					level = 0;
 				}
 				break;
 			case GAME:
+				if (System.currentTimeMillis() - levelTimer > 10 * 1000) {
+					levelTimer = System.currentTimeMillis();
+					level ++;
+				}
 				gra.setColor(Color.BLUE);
 				gra.fillRect(playerX + 10, playerY, 10, 10);
 				gra.fillRect(playerX, playerY + 10, 30, 10);
@@ -107,16 +114,17 @@ public class Shooting {
 						enemies.remove(i);
 						i--;
 					}
-					if(random.nextInt(60)==1) bullets_enemy.add(new Bullet(enemy.x, enemy.y));
+					if(random.nextInt(level<30?40 - level:30)==1) bullets_enemy.add(new Bullet(enemy.x, enemy.y));
 					if((enemy.x>=playerX&&enemy.x<=playerX+30&&
 							enemy.y>=playerY&&enemy.y<=playerY+20)||
 					(enemy.x+30>=playerX&&enemy.x+30<=playerX+30&&
 					enemy.y+20>=playerY&&enemy.y+20<=playerY+20)){
 								screen = EnumShootingScreen.GAME_OVER;
+								score += (level - 1) * 100;
 							}
 				}
 				
-				if(random.nextInt(30)==1) enemies.add(new Enemy(random.nextInt(470), 0));
+				if(random.nextInt(level<10?30 - level:30)==1) enemies.add(new Enemy(random.nextInt(470), 0));
 				
 				for (int i = 0; i < bullets_enemy.size(); i++) {
 					Bullet bullet = bullets_enemy.get(i);
@@ -130,6 +138,7 @@ public class Shooting {
 					if(bullet.x>=playerX&&bullet.x<=playerX+30&&
 					bullet.y>=playerY&&bullet.y<=playerY+20) {
 						screen = EnumShootingScreen.GAME_OVER;
+						score += (level - 1) * 100;
 					}
 				}
 				if(Keyboard.isKeyPressed(KeyEvent.VK_LEFT) && playerX > 0) playerX -= 8;
@@ -149,6 +158,7 @@ public class Shooting {
 				metrics = gra.getFontMetrics(font);
 			    gra.setFont(font);
 				gra.drawString("SCORE:" + score, 470 - metrics.stringWidth("SCORE:" + score), 430);
+				gra.drawString("LEVEL:" + level, 470 - metrics.stringWidth("LEVEL:" + level), 450);
 				
 				break;
 			case GAME_OVER:
