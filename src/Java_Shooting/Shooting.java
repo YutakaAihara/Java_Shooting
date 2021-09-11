@@ -67,6 +67,7 @@ public class Shooting {
 					enemies = new ArrayList<>();
 					playerX = 235;
 					playerY = 420;
+					score = 0;
 				}
 				break;
 			case GAME:
@@ -107,6 +108,12 @@ public class Shooting {
 						i--;
 					}
 					if(random.nextInt(60)==1) bullets_enemy.add(new Bullet(enemy.x, enemy.y));
+					if((enemy.x>=playerX&&enemy.x<=playerX+30&&
+							enemy.y>=playerY&&enemy.y<=playerY+20)||
+					(enemy.x+30>=playerX&&enemy.x+30<=playerX+30&&
+					enemy.y+20>=playerY&&enemy.y+20<=playerY+20)){
+								screen = EnumShootingScreen.GAME_OVER;
+							}
 				}
 				
 				if(random.nextInt(30)==1) enemies.add(new Enemy(random.nextInt(470), 0));
@@ -119,6 +126,10 @@ public class Shooting {
 					if(bullet.y > 500) {
 						bullets_enemy.remove(i);
 						i--;
+					}
+					if(bullet.x>=playerX&&bullet.x<=playerX+30&&
+					bullet.y>=playerY&&bullet.y<=playerY+20) {
+						screen = EnumShootingScreen.GAME_OVER;
 					}
 				}
 				if(Keyboard.isKeyPressed(KeyEvent.VK_LEFT) && playerX > 0) playerX -= 8;
@@ -134,11 +145,26 @@ public class Shooting {
 				if(bulletInterval > 0) bulletInterval--;
 				
 				gra.setColor(Color.BLACK);
-				gra.setFont(new Font("SansSerif", Font.PLAIN, 20));
-				gra.drawString("SCORE:" + score, 400, 430);
+				font = new Font("SansSerif", Font.PLAIN, 20);
+				metrics = gra.getFontMetrics(font);
+			    gra.setFont(font);
+				gra.drawString("SCORE:" + score, 470 - metrics.stringWidth("SCORE:" + score), 430);
 				
 				break;
 			case GAME_OVER:
+				gra.setColor(Color.BLACK);
+				font = new Font("SansSerif", Font.PLAIN, 50);
+				gra.setFont(font);
+				metrics = gra.getFontMetrics(font);
+				gra.drawString("Game Over", 250 - (metrics.stringWidth("Game Over") / 2), 100);
+				font = new Font("SansSerif", Font.PLAIN, 25);
+				gra.setFont(font);
+				metrics = gra.getFontMetrics(font);
+				gra.drawString("SCORE:" + score, 250 - (metrics.stringWidth("SCORE:" + score) / 2), 150);
+				gra.drawString("Please ESC to Return Start Screen", 250 - (metrics.stringWidth("Please ESC to Return Start Screen") / 2), 200);
+				if(Keyboard.isKeyPressed(KeyEvent.VK_ESCAPE)) {
+					screen = EnumShootingScreen.START;
+				}
 				break;
 			}
 			
