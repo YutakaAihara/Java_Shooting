@@ -89,7 +89,10 @@ public class Shooting {
 						if(bullet.x>=enemy.x&&bullet.x<=enemy.x+30&&bullet.y>=enemy.y&&bullet.y<=enemy.y+20){
 							enemies.remove(l);
 							l--;
+							score += 10;
 						}
+						
+						
 					  }
 					}
 				
@@ -129,6 +132,11 @@ public class Shooting {
 					bulletInterval = 8;
 				}
 				if(bulletInterval > 0) bulletInterval--;
+				
+				gra.setColor(Color.BLACK);
+				gra.setFont(new Font("SansSerif", Font.PLAIN, 20));
+				gra.drawString("SCORE:" + score, 400, 430);
+				
 				break;
 			case GAME_OVER:
 				break;
