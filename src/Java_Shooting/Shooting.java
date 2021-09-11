@@ -30,6 +30,7 @@ public class Shooting {
 		// GAME
 		int playerX = 0, playerY = 0;
 		int bulletInterval = 0;
+		int score = 0;
 		ArrayList<Bullet> bullets_player = new ArrayList<>();
 		ArrayList<Bullet> bullets_enemy = new ArrayList<>();
 		ArrayList<Enemy> enemies = new ArrayList<>();
@@ -82,7 +83,15 @@ public class Shooting {
 						bullets_player.remove(i);
 						i--;
 					}
-				}
+					
+					for ( int l = 0; l < enemies.size(); l++) {
+						Enemy enemy = enemies.get(l);
+						if(bullet.x>=enemy.x&&bullet.x<=enemy.x+30&&bullet.y>=enemy.y&&bullet.y<=enemy.y+20){
+							enemies.remove(l);
+							l--;
+						}
+					  }
+					}
 				
 				gra.setColor(Color.RED);
 				for ( int i = 0; i < enemies.size(); i++) {
